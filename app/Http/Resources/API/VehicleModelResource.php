@@ -9,6 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $name
  * @property mixed $display_name
  * @property mixed $estimated_price
+ * @property mixed $vehicleType
  */
 class VehicleModelResource extends JsonResource
 {
@@ -24,6 +25,11 @@ class VehicleModelResource extends JsonResource
             "display_name" => $this->display_name,
             "estimated_price" => $this->estimated_price,
         ];
+
+        if ($request->has('include') && str_contains($request->get('include'), 'vehicle_types')) {
+            // hasOne relationship
+            $data['vehicle_type'] = VehicleTypeResource::collection($this->vehicleType);
+        }
 
         return $data;
     }

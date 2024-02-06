@@ -3,26 +3,25 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\MarqueStoreRequest;
-use App\Http\Requests\API\MarqueUpdateRequest;
-use App\Http\Resources\API\MarqueResource;
-use App\Repositories\API\MarqueRepository;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\API\VehicleMarqueStoreRequest;
+use App\Http\Requests\API\VehicleMarqueUpdateRequest;
+use App\Http\Resources\API\VehicleMarqueResource;
+use App\Repositories\API\VehicleMarqueRepository;
 
-class MarqueController extends Controller
+class VehicleMarqueController extends Controller
 {
-    private MarqueRepository $marqueRepository;
-    public function __construct(MarqueRepository $marqueRepository)
+    private VehicleMarqueRepository $vehicleMarqueRepository;
+    public function __construct(VehicleMarqueRepository $vehicleMarqueRepository)
     {
-        $this->marqueRepository = $marqueRepository;
+        $this->vehicleMarqueRepository = $vehicleMarqueRepository;
     }
 
     public function index()
     {
         try {
-            $data = $this->marqueRepository->index();
+            $data = $this->vehicleMarqueRepository->index();
 
-            return MarqueResource::collection($data);
+            return VehicleMarqueResource::collection($data);
         } catch (\Exception $e) {
             // Handle exception
         }
@@ -31,35 +30,35 @@ class MarqueController extends Controller
     public function show($marque)
     {
         try {
-            $data = $this->marqueRepository->show($marque);
-            return new MarqueResource($data);
+            $data = $this->vehicleMarqueRepository->show($marque);
+            return new VehicleMarqueResource($data);
         } catch (\Exception $e) {
             // Handle exception
         }
     }
 
-    public function store(MarqueStoreRequest $request)
+    public function store(VehicleMarqueStoreRequest $request)
     {
         try {
-            $data = $this->marqueRepository->store($request->all());
+            $data = $this->vehicleMarqueRepository->store($request->all());
 
             return response()->json([
                 'message' => 'Marque created successfully',
-                'data' => new MarqueResource($data)
+                'data' => new VehicleMarqueResource($data)
             ], 201);
         } catch (\Exception $e) {
             // Handle exception
         }
     }
 
-    public function update(MarqueUpdateRequest $request, $marque)
+    public function update(VehicleMarqueUpdateRequest $request, $marque)
     {
         try {
-            $data = $this->marqueRepository->update($request->all(), $marque);
+            $data = $this->vehicleMarqueRepository->update($request->all(), $marque);
 
             return response()->json([
                 'message' => 'Marque updated successfully',
-                'data' => new MarqueResource($data)
+                'data' => new VehicleMarqueResource($data)
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
@@ -71,7 +70,7 @@ class MarqueController extends Controller
     public function destroy($marque)
     {
         try {
-            $this->marqueRepository->destroy($marque);
+            $this->vehicleMarqueRepository->destroy($marque);
 
             return response()->json([
                 'message' => 'Marque deleted successfully'

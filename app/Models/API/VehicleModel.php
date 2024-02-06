@@ -14,9 +14,9 @@ class VehicleModel extends Model
         'estimated_price',
     ];
 
-    public function marque() : hasOne
+    public function vehicleMarque() : hasOne
     {
-        return $this->hasOne(Marque::class);
+        return $this->hasOne(VehicleMarque::class);
     }
 
     public function vehicleType() : hasOne

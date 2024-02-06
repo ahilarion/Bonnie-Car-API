@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\API\MarqueController;
+use App\Http\Controllers\API\VehicleMarqueController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'vehicle'], function () {
     Route::group(['prefix' => 'marque'], function () {
-        Route::get('/', [MarqueController::class, 'index']);
-        Route::get('/{marque}', [MarqueController::class, 'show'])->where('marque', '[A-Za-z]+');
-        Route::post('/', [MarqueController::class, 'store']);
-        Route::put('/{marque}', [MarqueController::class, 'update'])->where('marque', '[A-Za-z]+');
-        Route::delete('/{marque}', [MarqueController::class, 'destroy'])->where('marque', '[A-Za-z]+');
+        Route::get('/', [VehicleMarqueController::class, 'index']);
+        Route::get('/{marque}', [VehicleMarqueController::class, 'show'])->where('marque', '[A-Za-z]+');
+        Route::post('/', [VehicleMarqueController::class, 'store']);
+        Route::put('/{marque}', [VehicleMarqueController::class, 'update'])->where('marque', '[A-Za-z]+');
+        Route::delete('/{marque}', [VehicleMarqueController::class, 'destroy'])->where('marque', '[A-Za-z]+');
     });
 
     Route::group(['prefix' => 'model'], function () {

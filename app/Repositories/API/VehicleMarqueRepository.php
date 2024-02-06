@@ -2,34 +2,34 @@
 
 namespace App\Repositories\API;
 
-use App\Models\API\Marque;
+use App\Models\API\VehicleMarque;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 
-class MarqueRepository
+class VehicleMarqueRepository
 {
     public function index(): Collection
     {
-        return Marque::all();
+        return VehicleMarque::all();
     }
 
-    public function show($marque) : Marque
+    public function show($marque) : VehicleMarque
     {
-        return Marque::where('name', $marque)->first();
+        return VehicleMarque::where('name', $marque)->first();
     }
 
-    public function store(array $data) : Marque
+    public function store(array $data) : VehicleMarque
     {
-        return Marque::create($data);
+        return VehicleMarque::create($data);
     }
 
     /**
      * @throws Exception
      */
-    public function update(array $data, $marque) : Marque
+    public function update(array $data, $marque) : VehicleMarque
     {
-        $marque = Marque::where('name', $marque)->first();
+        $marque = VehicleMarque::where('name', $marque)->first();
 
         if (!$marque) {
             throw new Exception('Marque not found');
@@ -44,7 +44,7 @@ class MarqueRepository
      */
     public function destroy($marque) : void
     {
-        $marque = Marque::where('name', $marque)->first();
+        $marque = VehicleMarque::where('name', $marque)->first();
 
         if (!$marque) {
             throw new Exception('Marque not found');

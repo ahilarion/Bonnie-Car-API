@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static where(string $string, $marque)
  * @method static create(array $data)
  */
-class Marque extends Model
+class VehicleMarque extends Model
 {
     protected $fillable = [
         'name',

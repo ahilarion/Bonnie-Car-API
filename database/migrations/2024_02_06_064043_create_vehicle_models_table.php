@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('display_name');
             $table->decimal('estimated_price', 10, 2);
-            $table->foreignId('marque_id')->constrained();
+            $table->foreignId('vehicle_marque_id')->constrained();
             $table->foreignId('vehicle_type_id')->constrained();
             $table->timestamps();
         });

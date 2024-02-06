@@ -12,7 +12,7 @@ use App\Http\Resources\API\VehicleModelResource;
  * @property mixed $display_name
  * @property mixed $vehicleModels
  */
-class MarqueResource extends JsonResource
+class VehicleMarqueResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -26,7 +26,7 @@ class MarqueResource extends JsonResource
             "display_name" => $this->display_name,
         ];
 
-        if ($request->has('include') && $request->get('include') === 'vehicle_models') {
+        if ($request->has('include') && str_contains($request->get('include'), 'vehicle_models')) {
             $data['vehicle_models'] = VehicleModelResource::collection($this->vehicleModels);
         }
 
