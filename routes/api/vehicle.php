@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\VehicleMarqueController;
+use App\Http\Controllers\API\VehicleModelController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'vehicle'], function () {
@@ -13,7 +14,11 @@ Route::group(['prefix' => 'vehicle'], function () {
     });
 
     Route::group(['prefix' => 'model'], function () {
-
+        Route::get('/', [VehicleModelController::class, 'index']);
+        Route::get('/{model}', [VehicleModelController::class, 'show'])->where('model', '[A-Za-z]+');
+        Route::post('/', [VehicleModelController::class, 'store']);
+        Route::put('/{model}', [VehicleModelController::class, 'update'])->where('model', '[A-Za-z]+');
+        Route::delete('/{model}', [VehicleModelController::class, 'destroy'])->where('model', '[A-Za-z]+');
     });
 
     Route::group(['prefix' => 'type'], function () {

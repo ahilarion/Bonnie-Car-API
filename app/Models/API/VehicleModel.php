@@ -6,12 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @method static create(array $array)
+ * @method static where(string $string, $model)
+ */
 class VehicleModel extends Model
 {
     protected $fillable = [
         'name',
         'display_name',
         'estimated_price',
+        'vehicle_marque_id',
+        'vehicle_type_id'
     ];
 
     public function vehicleMarque() : BelongsTo
