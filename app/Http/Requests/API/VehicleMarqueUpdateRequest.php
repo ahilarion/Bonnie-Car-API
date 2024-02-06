@@ -23,8 +23,8 @@ class VehicleMarqueUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['string', 'max:255', 'unique:marques'],
-            'display_name' => ['string', 'max:255', 'unique:marques'],
+            'name' => ['string', 'max:255', 'unique:vehicle_marques'],
+            'display_name' => ['string', 'max:255', 'unique:vehicle_marques'],
         ];
     }
 
