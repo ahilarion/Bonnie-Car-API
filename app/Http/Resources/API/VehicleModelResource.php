@@ -27,8 +27,7 @@ class VehicleModelResource extends JsonResource
         ];
 
         if ($request->has('include') && str_contains($request->get('include'), 'vehicle_types')) {
-            // hasOne relationship
-            $data['vehicle_type'] = VehicleTypeResource::collection($this->vehicleType);
+            $data['vehicle_type'] = new VehicleTypeResource($this->vehicleType);
         }
 
         return $data;

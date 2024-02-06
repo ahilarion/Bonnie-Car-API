@@ -4,7 +4,7 @@ namespace App\Models\API;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VehicleModel extends Model
 {
@@ -14,13 +14,13 @@ class VehicleModel extends Model
         'estimated_price',
     ];
 
-    public function vehicleMarque() : hasOne
+    public function vehicleMarque() : BelongsTo
     {
-        return $this->hasOne(VehicleMarque::class);
+        return $this->belongsTo(VehicleMarque::class);
     }
 
-    public function vehicleType() : hasOne
+    public function vehicleType() : BelongsTo
     {
-        return $this->hasOne(VehicleType::class);
+        return $this->belongsTo(VehicleType::class);
     }
 }
