@@ -100,11 +100,20 @@ class VehicleModelRepository
         }
 
         try {
-            $model->update($data);
+            // TODO : check why update() is not working without specifying the fields
+            $model->update([
+                'name' => $data['name'],
+                'display_name' => $data['display_name'],
+                'gearbox' => $data['gearbox'],
+                'fuel_type' => $data['fuel_type'],
+                'horse_power' => $data['horse_power'],
+                'consumption' => $data['consumption'],
+                'release_year' => $data['release_year'],
+                'estimated_price' => $data['estimated_price'],
+            ]);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
-        dd("2");
 
         return $model;
     }
