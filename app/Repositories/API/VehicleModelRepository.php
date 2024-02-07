@@ -17,12 +17,12 @@ class VehicleModelRepository
     /**
      * @throws Exception
      */
-    public function index(): Collection
+    public function index()
     {
         try {
             $models = QueryBuilder::for(VehicleModel::class)
                 ->allowedIncludes(VehicleModel::$allowedIncludes)
-                ->get();
+                ->paginate(10);
         } catch (Exception $e) {
             throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
         }

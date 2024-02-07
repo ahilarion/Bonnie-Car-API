@@ -14,12 +14,12 @@ class VehicleMarqueRepository
     /**
      * @throws Exception
      */
-    public function index(): Collection
+    public function index()
     {
         try {
             $marques = QueryBuilder::for(VehicleMarque::class)
                 ->allowedIncludes(VehicleMarque::$allowedIncludes)
-                ->get();
+                ->paginate(10);
         } catch (Exception $e) {
             throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
         }

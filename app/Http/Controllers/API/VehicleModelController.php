@@ -23,9 +23,7 @@ class VehicleModelController extends Controller
         try {
             $data = $this->vehicleModelRepository->index();
 
-            return response()->json([
-                'data' => VehicleModelResource::collection($data)
-            ], Response::HTTP_OK);
+            return VehicleModelResource::collection($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -38,9 +36,7 @@ class VehicleModelController extends Controller
         try {
             $data = $this->vehicleModelRepository->show($model);
 
-            return response()->json([
-                'data' => new VehicleModelResource($data)
-            ], Response::HTTP_OK);
+            return new VehicleModelResource($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -53,10 +49,7 @@ class VehicleModelController extends Controller
         try {
             $data = $this->vehicleModelRepository->store($request);
 
-            return response()->json([
-                'message' => 'Model created successfully',
-                'data' => new VehicleModelResource($data)
-            ], Response::HTTP_CREATED);
+            return new VehicleModelResource($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -69,10 +62,7 @@ class VehicleModelController extends Controller
         try {
             $data = $this->vehicleModelRepository->update($request, $model);
 
-            return response()->json([
-                'message' => 'Model updated successfully',
-                'data' => new VehicleModelResource($data)
-            ], Response::HTTP_OK);
+            return new VehicleModelResource($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()

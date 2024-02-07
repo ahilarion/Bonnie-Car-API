@@ -15,48 +15,13 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        /*$marque = QueryBuilder::for(VehicleMarque::class)
-            //->allowedIncludes(VehicleMarque::$allowedIncludes)
-            ->allowedIncludes(['models'])
-            ->get();
+        $list = QueryBuilder::for(VehicleModel::class)
+            ->allowedFilters('name', 'vehicle_marque_id')
+            ->allowedSorts('name')
+            ->allowedIncludes('VehicleMarque', 'VehicleType')
+            ->paginate(10);
 
-        return VehicleMarqueResource::collection($marque);
-
-        //result : "data": [
-        //        {
-        //            "name": "renault",
-        //            "display_name": "Renault",
-        //            "models": [
-        //                {
-        //                    "name": "clio",
-        //                    "display_name": "Clio",
-        //                    "estimated_price": "15000.00"
-        //                },
-        //                {
-        //                    "name": "megane",
-        //                    "display_name": "Megane",
-        //                    "estimated_price": "20000.00"
-        //                },
-        //                {
-        //                    "name": "captur",
-        //                    "display_name": "Captur",
-        //                    "estimated_price": "18000.00"
-        //                }
-        //            ]
-        //        },
-*/
-        $models = QueryBuilder::for(VehicleModel::class)
-            ->allowedIncludes(VehicleModel::$allowedIncludes)
-            ->get();
-
-        return VehicleModelResource::collection($models);
-
-        //result : "data": [
-        //        {
-        //            "name": "clio",
-        //            "display_name": "Clio",
-        //            "estimated_price": "15000.00",
-        //            "marque": null
-        //        },
+        // Transform with resource but keep the pagination
+        return VehicleModelResource::collection($list);
     }
 }

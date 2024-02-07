@@ -28,9 +28,7 @@ class VehicleMarqueController extends Controller
         try {
             $data = $this->vehicleMarqueRepository->index();
 
-            return response()->json([
-                'data' => VehicleMarqueResource::collection($data)
-            ], Response::HTTP_OK);
+            return VehicleMarqueResource::collection($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -43,9 +41,7 @@ class VehicleMarqueController extends Controller
         try {
             $data = $this->vehicleMarqueRepository->show($marque);
 
-            return response()->json([
-                'data' => new VehicleMarqueResource($data)
-            ], Response::HTTP_OK);
+            return new VehicleMarqueResource($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -58,10 +54,7 @@ class VehicleMarqueController extends Controller
         try {
             $data = $this->vehicleMarqueRepository->store($request->all());
 
-            return response()->json([
-                'message' => 'Marque created successfully',
-                'data' => new VehicleMarqueResource($data)
-            ], Response::HTTP_CREATED);
+            return new VehicleMarqueResource($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -74,10 +67,7 @@ class VehicleMarqueController extends Controller
         try {
             $data = $this->vehicleMarqueRepository->update($request->all(), $marque);
 
-            return response()->json([
-                'message' => 'Marque updated successfully',
-                'data' => new VehicleMarqueResource($data)
-            ], Response::HTTP_OK);
+            return new VehicleMarqueResource($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
