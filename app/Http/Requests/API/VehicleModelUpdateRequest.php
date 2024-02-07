@@ -25,10 +25,17 @@ class VehicleModelUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        // TODO : Lors de l'update : 
+        //! "Illuminate\\Database\\Eloquent\\Model::update(): Argument #1 ($attributes) must be of type array, App\\Http\\Requests\\API\\VehicleModelUpdateRequest given, called in D:\\WAMPP\\www\\Bonnie&Car\\Bonnie-Car-api\\app\\Repositories\\API\\VehicleModelRepository.php on line 103",
         return [
             'name' => ['string', 'max:255', 'unique:vehicle_models'],
-            'display_name' => ['string', 'max:255', 'unique:vehicle_models'],
-            'estimated_price' => ['numeric', 'min_value:0'],
+            'display_name' => ['string', 'max:255'],
+            'estimated_price' => ['numeric', 'min:0'],
+            'gearbox' => ['string', 'max:255'],
+            'fuel_type' => ['string', 'max:255'],
+            'horse_power' => ['numeric', 'max:255'],
+            'consumption' => ['numeric', 'max:255'],
+            'release_year' => ['date_format:Y'],
         ];
     }
 

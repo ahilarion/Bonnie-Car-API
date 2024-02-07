@@ -30,6 +30,11 @@ class VehicleModelStoreRequest extends FormRequest
             'name' => ['required', 'string', 'max:255', 'unique:vehicle_models'],
             'display_name' => ['required', 'string', 'max:255', 'unique:vehicle_models'],
             'estimated_price' => ['required', 'numeric', 'min:0'],
+            'gearbox' => ['required', 'string'],
+            'fuel_type' => ['required', 'string'],
+            'horse_power' => ['required', 'numeric', 'min:0'],
+            'consumption' => ['required', 'numeric', 'min:0'],
+            'release_year' => ['required', 'date_format:Y'],
             'vehicle_marque' => ['required', 'string', 'exists:vehicle_marques,name'],
             'vehicle_type' => ['required', 'string', 'exists:vehicle_types,name'],
         ];

@@ -25,6 +25,11 @@ class VehicleModelResource extends JsonResource
             "name" => $this->name,
             "display_name" => $this->display_name,
             "estimated_price" => $this->estimated_price,
+            "gearbox" => $this->gearbox,
+            "fuel_type" => $this->fuel_type,
+            "horse_power" => $this->horse_power,
+            "consumption" => $this->consumption,
+            "release_year" => $this->release_year,
             "type" => new VehicleTypeResource($this->whenLoaded('VehicleType')),
             "marque" => new VehicleMarqueResource($this->whenLoaded('VehicleMarque')),
         ];
