@@ -6,7 +6,7 @@ use App\Http\Requests\API\PostStoreRequest;
 use App\Http\Requests\API\PostUpdateRequest;
 use App\Models\API\Post;
 use Exception;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,39 +18,39 @@ class PostRepository
     public function index()
     {
         try {
-            $types = QueryBuilder::for(Post::class)
+            $posts = QueryBuilder::for(Post::class)
                 ->allowedIncludes(Post::$allowedIncludes)
                 ->paginate(10);
         } catch (Exception $e) {
             throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
         }
 
-        if ($types->isEmpty()) {
-            throw new Exception('No post types found', Response::HTTP_NOT_FOUND);
+        if ($posts->isEmpty()) {
+            throw new Exception('No post posts found', Response::HTTP_NOT_FOUND);
         }
 
-        return $types;
+        return $posts;
     }
 
     /**
      * @throws Exception
      */
-    public function show($type) : Post
+    public function show($post) : Post
     {
         try {
-            $type = QueryBuilder::for(Post::class)
+            $post = QueryBuilder::for(Post::class)
                 ->allowedIncludes(Post::$allowedIncludes)
-                ->where('name', $type)
+                ->where('uuid', $post)
                 ->first();
         } catch (Exception $e) {
             throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
         }
 
-        if (!$type) {
-            throw new Exception('Vehicle type not found', Response::HTTP_NOT_FOUND);
+        if (!$post) {
+            throw new Exception('Post post not found', Response::HTTP_NOT_FOUND);
         }
 
-        return $type;
+        return $post;
     }
 
     /**
@@ -58,42 +58,51 @@ class PostRepository
      */
     public function store(PostStoreRequest $data) : Post
     {
-        $type = Post::create($data->all());
+        $user = Auth::user();
 
-        if (!$type) {
-            throw new Exception('Vehicle type not created', Response::HTTP_INTERNAL_SERVER_ERROR);
+        $model = Post::create([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'images' => json_encode($data['images']),
+            'price' => $data['price'],
+            'kilometer' => $data['kilometer'],
+            'user_id' => $user->id
+        ]);
+
+        if (!$model) {
+            throw new Exception('Failed to create model', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return $type;
+        return $model;
     }
 
     /**
      * @throws Exception
      */
-    public function update(PostUpdateRequest $data, $type) : Post
+    public function update(PostUpdateRequest $data, $post) : Post
     {
-        $type = Post::where('name', $type)->first();
+        $post = Post::where('uuid', $post)->first();
 
-        if (!$type) {
-            throw new Exception('Vehicle not found', Response::HTTP_NOT_FOUND);
+        if (!$post) {
+            throw new Exception('Post not found', Response::HTTP_NOT_FOUND);
         }
 
-        $type->update($data->all());
+        $post->update($data->all());
 
-        return $type;
+        return $post;
     }
 
     /**
      * @throws Exception
      */
-    public function destroy($type) : void
+    public function destroy($post) : void
     {
-        $type = Post::where('name', $type)->first();
+        $post = Post::where('uuid', $post)->first();
 
-        if (!$type) {
-            throw new Exception('Vehicle not found', Response::HTTP_NOT_FOUND);
+        if (!$post) {
+            throw new Exception('Post not found', Response::HTTP_NOT_FOUND);
         }
 
-        $type->delete();
+        $post->delete();
     }
 }
