@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class VehicleModel extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'display_name',

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class VehicleMarque extends Model
 {
+    use HasFactory;
     /**
      * @var array|string[]
      */

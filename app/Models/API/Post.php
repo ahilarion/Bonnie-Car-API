@@ -31,5 +31,6 @@ class Post extends Model
     }
 
     public static array $allowedIncludes = [
+
     ];
 }

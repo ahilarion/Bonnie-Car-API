@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class VehicleType extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'display_name',
