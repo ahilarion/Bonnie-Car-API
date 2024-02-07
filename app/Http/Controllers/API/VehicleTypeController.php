@@ -8,6 +8,7 @@ use App\Http\Requests\API\VehicleTypeUpdateRequest;
 use App\Http\Resources\API\VehicleTypeResource;
 use App\Repositories\API\VehicleTypeRepository;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class VehicleTypeController extends Controller
 {
@@ -22,65 +23,76 @@ class VehicleTypeController extends Controller
         try {
             $data = $this->vehicleTypeRepository->index();
 
-            return VehicleTypeResource::collection($data);
+            return response()->json([
+                'data' => VehicleTypeResource::collection($data)
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
-    public function show($vehicleType)
+    public function show($type)
     {
         try {
-            $data = $this->vehicleTypeRepository->show($vehicleType);
-            return new VehicleTypeResource($data);
+            $data = $this->vehicleTypeRepository->show($type);
+
+            return response()->json([
+                'data' => new VehicleTypeResource($data)
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
     public function store(VehicleTypeStoreRequest $request)
     {
         try {
-            $data = $this->vehicleTypeRepository->store($request->all());
+            $data = $this->vehicleTypeRepository->store($request);
 
             return response()->json([
                 'message' => 'Type created successfully',
                 'data' => new VehicleTypeResource($data)
-            ], 201);
+            ], Response::HTTP_CREATED);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
-    public function update(VehicleTypeUpdateRequest $request, $vehicleType)
+    public function update(VehicleTypeUpdateRequest $request, $type)
     {
         try {
-            $data = $this->vehicleTypeRepository->update($request->all(), $vehicleType);
+            $data = $this->vehicleTypeRepository->update($request, $type);
 
             return response()->json([
                 'message' => 'Marque updated successfully',
                 'data' => new VehicleTypeResource($data)
-            ], 200);
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
-            ], 404);
+            ], $e->getCode());
         }
     }
 
-    
-    public function destroy($vehicleType)
+
+    public function destroy($type)
     {
         try {
-            $this->vehicleTypeRepository->destroy($vehicleType);
+            $this->vehicleTypeRepository->destroy($type);
 
             return response()->json([
                 'message' => 'Type deleted successfully'
-            ], 200);
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
-            ], 404);
+            ], $e->getCode());
         }
     }
 }

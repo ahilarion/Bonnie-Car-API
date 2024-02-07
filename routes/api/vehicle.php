@@ -29,5 +29,4 @@ Route::group(['prefix' => 'vehicle'], function () {
         Route::put('/{type}', [VehicleTypeController::class, 'update'])->where('type', '[A-Za-z]+');
         Route::delete('/{type}', [VehicleTypeController::class, 'destroy'])->where('type', '[A-Za-z]+');
     });
-
 });

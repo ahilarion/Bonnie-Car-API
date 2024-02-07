@@ -3,7 +3,10 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class VehicleMarqueStoreRequest extends FormRequest
 {
@@ -28,17 +31,18 @@ class VehicleMarqueStoreRequest extends FormRequest
         ];
     }
 
-    public function messages(): array
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @throws HttpResponseException
+     */
+    public function failedValidation(Validator $validator) : void
     {
-        return [
-            'name.required' => 'The name field is required.',
-            'name.string' => 'The name field must be a string.',
-            'name.max' => 'The name field must not exceed 255 characters.',
-            'name.unique' => 'The name field must be unique.',
-            'display_name.required' => 'The display name field is required.',
-            'display_name.string' => 'The display name field must be a string.',
-            'display_name.max' => 'The display name field must not exceed 255 characters.',
-            'display_name.unique' => 'The display name field must be unique.',
-        ];
+        $errors = $validator->errors()->getMessages();
+
+        throw new HttpResponseException(response()->json([
+            'message' => 'The given data was invalid',
+            'errors' => $errors
+        ], Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Requests\API;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class RegisterRequest extends FormRequest
 {
@@ -30,24 +33,18 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    public function messages(): array
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @throws HttpResponseException
+     */
+    public function failedValidation(Validator $validator) : void
     {
-        return [
-            "first_name.required" => "The first name field is required.",
-            "first_name.string" => "The first name field must be a string.",
-            "first_name.max" => "The first name field must not exceed 255 characters.",
-            "last_name.required" => "The last name field is required.",
-            "last_name.string" => "The last name field must be a string.",
-            "last_name.max" => "The last name field must not exceed 255 characters.",
-            "email.required" => "The email field is required.",
-            "email.string" => "The email field must be a string.",
-            "email.email" => "The email field must be a valid email address.",
-            "email.max" => "The email field must not exceed 255 characters.",
-            "email.unique" => "The email field must be unique.",
-            "password.required" => "The password field is required.",
-            "password.string" => "The password field must be a string.",
-            "password.min" => "The password field must be at least 8 characters.",
-            "password.max" => "The password field must not exceed 255 characters.",
-        ];
+        $errors = $validator->errors()->getMessages();
+
+        throw new HttpResponseException(response()->json([
+            'message' => 'The given data was invalid',
+            'errors' => $errors
+        ], Response::HTTP_UNPROCESSABLE_ENTITY));
     }
 }

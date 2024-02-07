@@ -7,6 +7,7 @@ use App\Http\Resources\API\VehicleModelResource;
 use App\Repositories\API\VehicleModelRepository;
 use App\Http\Requests\API\VehicleModelStoreRequest;
 use App\Http\Requests\API\VehicleModelUpdateRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class VehicleModelController extends Controller
 {
@@ -22,9 +23,13 @@ class VehicleModelController extends Controller
         try {
             $data = $this->vehicleModelRepository->index();
 
-            return VehicleModelResource::collection($data);
+            return response()->json([
+                'data' => VehicleModelResource::collection($data)
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -32,39 +37,46 @@ class VehicleModelController extends Controller
     {
         try {
             $data = $this->vehicleModelRepository->show($model);
-            return new VehicleModelResource($data);
+
+            return response()->json([
+                'data' => new VehicleModelResource($data)
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
     public function store(VehicleModelStoreRequest $request)
     {
         try {
-            $data = $this->vehicleModelRepository->store($request->all());
+            $data = $this->vehicleModelRepository->store($request);
 
             return response()->json([
                 'message' => 'Model created successfully',
                 'data' => new VehicleModelResource($data)
-            ], 201);
+            ], Response::HTTP_CREATED);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
     public function update(VehicleModelUpdateRequest $request, $model)
     {
         try {
-            $data = $this->vehicleModelRepository->update($request->all(), $model);
+            $data = $this->vehicleModelRepository->update($request, $model);
 
             return response()->json([
                 'message' => 'Model updated successfully',
                 'data' => new VehicleModelResource($data)
-            ], 200);
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
-            ], 404);
+            ], $e->getCode());
         }
     }
 
@@ -75,11 +87,11 @@ class VehicleModelController extends Controller
 
             return response()->json([
                 'message' => 'Model deleted successfully'
-            ], 200);
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
-            ], 404);
+            ], $e->getCode());
         }
     }
 }

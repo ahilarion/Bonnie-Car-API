@@ -7,6 +7,7 @@ use App\Http\Requests\API\VehicleMarqueStoreRequest;
 use App\Http\Requests\API\VehicleMarqueUpdateRequest;
 use App\Http\Resources\API\VehicleMarqueResource;
 use App\Repositories\API\VehicleMarqueRepository;
+use Symfony\Component\HttpFoundation\Response;
 
 class VehicleMarqueController extends Controller
 {
@@ -21,9 +22,13 @@ class VehicleMarqueController extends Controller
         try {
             $data = $this->vehicleMarqueRepository->index();
 
-            return VehicleMarqueResource::collection($data);
+            return response()->json([
+                'data' => VehicleMarqueResource::collection($data)
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -31,9 +36,14 @@ class VehicleMarqueController extends Controller
     {
         try {
             $data = $this->vehicleMarqueRepository->show($marque);
-            return new VehicleMarqueResource($data);
+
+            return response()->json([
+                'data' => new VehicleMarqueResource($data)
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -45,9 +55,11 @@ class VehicleMarqueController extends Controller
             return response()->json([
                 'message' => 'Marque created successfully',
                 'data' => new VehicleMarqueResource($data)
-            ], 201);
+            ], Response::HTTP_CREATED);
         } catch (\Exception $e) {
-            // Handle exception
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
         }
     }
 
@@ -59,11 +71,11 @@ class VehicleMarqueController extends Controller
             return response()->json([
                 'message' => 'Marque updated successfully',
                 'data' => new VehicleMarqueResource($data)
-            ], 200);
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
-            ], 404);
+            ], $e->getCode());
         }
     }
 
@@ -74,11 +86,11 @@ class VehicleMarqueController extends Controller
 
             return response()->json([
                 'message' => 'Marque deleted successfully'
-            ], 200);
+            ], Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
-            ], 404);
+            ], $e->getCode());
         }
     }
 }

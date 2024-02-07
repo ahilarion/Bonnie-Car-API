@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static where(string $string, mixed $vehicle_type)
+ * @method static create(array $data)
  */
 class VehicleType extends Model
 {

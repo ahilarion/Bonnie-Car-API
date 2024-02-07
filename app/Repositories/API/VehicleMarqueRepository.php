@@ -6,22 +6,50 @@ use App\Models\API\VehicleMarque;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class VehicleMarqueRepository
 {
+    /**
+     * @throws Exception
+     */
     public function index(): Collection
     {
-        return VehicleMarque::all();
+        $marques = VehicleMarque::all();
+
+        if ($marques->isEmpty()) {
+            throw new Exception('No marques found', Response::HTTP_NOT_FOUND);
+        }
+
+        return $marques;
     }
 
+    /**
+     * @throws Exception
+     */
     public function show($marque) : VehicleMarque
     {
-        return VehicleMarque::where('name', $marque)->first();
+        $marque = VehicleMarque::where('name', $marque)->first();
+
+        if (!$marque) {
+            throw new Exception('Marque not found', Response::HTTP_NOT_FOUND);
+        }
+
+        return $marque;
     }
 
+    /**
+     * @throws Exception
+     */
     public function store(array $data) : VehicleMarque
     {
-        return VehicleMarque::create($data);
+        $marque = VehicleMarque::create($data);
+
+        if (!$marque) {
+            throw new Exception('Marque not created', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return $marque;
     }
 
     /**
@@ -32,7 +60,7 @@ class VehicleMarqueRepository
         $marque = VehicleMarque::where('name', $marque)->first();
 
         if (!$marque) {
-            throw new Exception('Marque not found');
+            throw new Exception('Marque not found', Response::HTTP_NOT_FOUND);
         }
 
         $marque->update($data);
@@ -47,7 +75,7 @@ class VehicleMarqueRepository
         $marque = VehicleMarque::where('name', $marque)->first();
 
         if (!$marque) {
-            throw new Exception('Marque not found');
+            throw new Exception('Marque not found', Response::HTTP_NOT_FOUND);
         }
 
         $marque->delete();
