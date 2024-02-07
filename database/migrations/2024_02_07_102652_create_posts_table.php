@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->json('images');
-            $table->decimal('price', 10, 2);
-            $table->string('kilometer');
+            $table->decimal('price', 10, 2)->default(0);
+            $table->decimal('kilometer', 10, 2)->default(0);
+            $table->decimal('reduction', 10, 2)->default(0);
+            $table->enum("status", ['pending','available','processed','cancelled','sold'])->default('pending');
             $table->foreignUuid('user_id')->constrained();
             $table->timestamps();
         });

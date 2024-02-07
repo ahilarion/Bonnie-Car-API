@@ -30,7 +30,8 @@ class PostStoreRequest extends FormRequest
             'description' => ['required', 'string', 'max:255'],
             'images' => ['required', 'array', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
-            'kilometer' => ['required', 'string', 'max:255']
+            'kilometer' => ['required', 'numeric', 'min:0'],
+            'reduction' => ['required', 'numeric', 'min:0', 'max:100']
         ];
     }
 

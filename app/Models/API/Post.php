@@ -19,6 +19,8 @@ class Post extends Model
         'images',
         'price',
         'kilometer',
+        'reduction',
+        'status',
         'user_id'
     ];
 
