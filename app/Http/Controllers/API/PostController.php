@@ -41,7 +41,7 @@ class PostController extends Controller
     public function store(PostStoreRequest $request)
     {
         try {
-            $data = $this->postRepository->store($request->all());
+            $data = $this->postRepository->store($request);
 
             return response()->json([
                 'message' => 'Model created successfully',
@@ -55,7 +55,7 @@ class PostController extends Controller
     public function update(PostUpdateRequest $request, $model)
     {
         try {
-            $data = $this->postRepository->update($request->all(), $model);
+            $data = $this->postRepository->update($request, $model);
 
             return response()->json([
                 'message' => 'Model updated successfully',

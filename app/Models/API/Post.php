@@ -19,7 +19,7 @@ class Post extends Model
         'images',
         'price',
         'kilometer',
-        'user_id'
+        'user'
     ];
 
     public function User() : BelongsTo
