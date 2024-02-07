@@ -26,8 +26,9 @@ class VehicleMarqueResource extends JsonResource
             "display_name" => $this->display_name,
         ];
 
-        if ($request->has('include') && str_contains($request->get('include'), 'vehicle_models')) {
-            $data['vehicle_models'] = VehicleModelResource::collection($this->vehicleModels);
+        if ($request->has('include') && str_contains($request->get('include'), 'models')) {
+            $request->merge(['include' => str_replace('models', '', $request->get('include'))]);
+            $data['models'] = VehicleModelResource::collection($this->vehicleModels);
         }
 
         return $data;

@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $display_name
  * @property mixed $estimated_price
  * @property mixed $vehicleType
+ * @property mixed $vehicleMarque
  */
 class VehicleModelResource extends JsonResource
 {
@@ -26,8 +27,14 @@ class VehicleModelResource extends JsonResource
             "estimated_price" => $this->estimated_price,
         ];
 
-        if ($request->has('include') && str_contains($request->get('include'), 'vehicle_types')) {
-            $data['vehicle_type'] = new VehicleTypeResource($this->vehicleType);
+        if ($request->has('include') && str_contains($request->get('include'), 'types')) {
+            $request->merge(['include' => str_replace('types', '', $request->get('include'))]);
+            $data['type'] = new VehicleTypeResource($this->vehicleType);
+        }
+
+        if ($request->has('include') && str_contains($request->get('include'), 'marques')) {
+            $request->merge(['include' => str_replace('marques', '', $request->get('include'))]);
+            $data['marque'] = new VehicleMarqueResource($this->vehicleMarque);
         }
 
         return $data;

@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @property mixed $name
  * @property mixed $display_name
+ * @property mixed $vehicleModels
  */
 class VehicleTypeResource extends JsonResource
 {
@@ -22,6 +23,12 @@ class VehicleTypeResource extends JsonResource
             "name" => $this->name,
             "display_name" => $this->display_name,
         ];
+
+        // handle recursive inclusion of vehicle models
+        if ($request->has('include') && str_contains($request->get('include'), 'models')) {
+            $request->merge(['include' => str_replace('models', '', $request->get('include'))]);
+            $data['models'] = VehicleModelResource::collection($this->vehicleModels);
+        }
 
         return $data;
     }

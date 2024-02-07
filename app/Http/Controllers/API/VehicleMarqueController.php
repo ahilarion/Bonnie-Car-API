@@ -7,11 +7,19 @@ use App\Http\Requests\API\VehicleMarqueStoreRequest;
 use App\Http\Requests\API\VehicleMarqueUpdateRequest;
 use App\Http\Resources\API\VehicleMarqueResource;
 use App\Repositories\API\VehicleMarqueRepository;
+use Exception;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class VehicleMarqueController extends Controller
 {
     private VehicleMarqueRepository $vehicleMarqueRepository;
+
+    /**
+     *
+     * @throws Exception
+     */
     public function __construct(VehicleMarqueRepository $vehicleMarqueRepository)
     {
         $this->vehicleMarqueRepository = $vehicleMarqueRepository;

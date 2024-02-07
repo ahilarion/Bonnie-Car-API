@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Throwable;
@@ -30,7 +31,6 @@ class Handler extends ExceptionHandler
             //
         });
 
-        //handle Route Not Found
         $this->renderable(function (MethodNotAllowedException $e, $request) {
             return response()->json(['message' => 'Route not found'], 404);
         });
@@ -41,6 +41,13 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (AuthenticationException $e, $request) {
             return response()->json(['message' => 'Unauthenticated'], 401);
+        });
+
+        // handle memory size exceeded
+        $this->renderable(function (FatalError $e, $request) {
+            if (str_contains($e->getMessage(), 'Allowed memory size')) {
+                return response()->json(['message' => 'Memory size exceeded'], 500);
+            }
         });
     }
 }
