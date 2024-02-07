@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
+use Spatie\QueryBuilder\QueryBuilderRequest;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
@@ -43,11 +45,16 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => 'Unauthenticated'], 401);
         });
 
-        // handle memory size exceeded
         $this->renderable(function (FatalError $e, $request) {
             if (str_contains($e->getMessage(), 'Allowed memory size')) {
                 return response()->json(['message' => 'Memory size exceeded'], 500);
             }
+
+            return response()->json(['message' => 'Internal server error'], 500);
+        });
+
+        $this->renderable(function (InvalidIncludeQuery $e, $request) {
+            return response()->json(['message' => 'Invalid include query'], 400);
         });
     }
 }

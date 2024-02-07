@@ -6,6 +6,7 @@ use App\Models\API\VehicleModel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\API\VehicleModelResource;
+use Spatie\QueryBuilder\QueryBuilder;
 
 /**
  * @property mixed $name
@@ -21,16 +22,10 @@ class VehicleMarqueResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = [
+        return [
             "name" => $this->name,
             "display_name" => $this->display_name,
+            "models" => VehicleModelResource::collection($this->whenLoaded('VehicleModels')),
         ];
-
-        if ($request->has('include') && str_contains($request->get('include'), 'models')) {
-            $request->merge(['include' => str_replace('models', '', $request->get('include'))]);
-            $data['models'] = VehicleModelResource::collection($this->vehicleModels);
-        }
-
-        return $data;
     }
 }

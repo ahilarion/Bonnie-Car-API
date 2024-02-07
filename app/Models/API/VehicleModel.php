@@ -20,12 +20,17 @@ class VehicleModel extends Model
         'vehicle_type_id'
     ];
 
-    public function vehicleMarque() : BelongsTo
+    public static array $allowedIncludes = [
+        'VehicleMarque',
+        'VehicleType'
+    ];
+
+    public function VehicleMarque() : BelongsTo
     {
         return $this->belongsTo(VehicleMarque::class);
     }
 
-    public function vehicleType() : BelongsTo
+    public function VehicleType() : BelongsTo
     {
         return $this->belongsTo(VehicleType::class);
     }

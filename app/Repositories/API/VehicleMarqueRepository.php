@@ -6,6 +6,7 @@ use App\Models\API\VehicleMarque;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class VehicleMarqueRepository
@@ -15,7 +16,13 @@ class VehicleMarqueRepository
      */
     public function index(): Collection
     {
-        $marques = VehicleMarque::all();
+        try {
+            $marques = QueryBuilder::for(VehicleMarque::class)
+                ->allowedIncludes(VehicleMarque::$allowedIncludes)
+                ->get();
+        } catch (Exception $e) {
+            throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
+        }
 
         if ($marques->isEmpty()) {
             throw new Exception('No marques found', Response::HTTP_NOT_FOUND);
@@ -29,7 +36,14 @@ class VehicleMarqueRepository
      */
     public function show($marque) : VehicleMarque
     {
-        $marque = VehicleMarque::where('name', $marque)->first();
+        try {
+            $marque = QueryBuilder::for(VehicleMarque::class)
+                ->allowedIncludes(VehicleMarque::$allowedIncludes)
+                ->where('name', $marque)
+                ->first();
+        } catch (Exception $e) {
+            throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$marque) {
             throw new Exception('Marque not found', Response::HTTP_NOT_FOUND);

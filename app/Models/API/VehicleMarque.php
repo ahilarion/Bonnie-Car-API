@@ -12,12 +12,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class VehicleMarque extends Model
 {
+    /**
+     * @var array|string[]
+     */
     protected $fillable = [
         'name',
         'display_name',
     ];
 
-    public function vehicleModels() : HasMany
+    public static array $allowedIncludes = [
+        'VehicleModels',
+        'VehicleModels.VehicleType'
+    ];
+    public function VehicleModels() : HasMany
     {
         return $this->hasMany(VehicleModel::class);
     }

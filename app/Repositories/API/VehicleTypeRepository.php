@@ -7,6 +7,7 @@ use App\Http\Requests\API\VehicleTypeUpdateRequest;
 use App\Models\API\VehicleType;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Spatie\QueryBuilder\QueryBuilder;
 use Symfony\Component\HttpFoundation\Response;
 
 class VehicleTypeRepository
@@ -16,7 +17,13 @@ class VehicleTypeRepository
      */
     public function index(): Collection
     {
-        $types = VehicleType::all();
+        try {
+            $types = QueryBuilder::for(VehicleType::class)
+                ->allowedIncludes(VehicleType::$allowedIncludes)
+                ->get();
+        } catch (Exception $e) {
+            throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
+        }
 
         if ($types->isEmpty()) {
             throw new Exception('No vehicle types found', Response::HTTP_NOT_FOUND);
@@ -30,7 +37,14 @@ class VehicleTypeRepository
      */
     public function show($type) : VehicleType
     {
-        $type = VehicleType::where('name', $type)->first();
+        try {
+            $type = QueryBuilder::for(VehicleType::class)
+                ->allowedIncludes(VehicleType::$allowedIncludes)
+                ->where('name', $type)
+                ->first();
+        } catch (Exception $e) {
+            throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
+        }
 
         if (!$type) {
             throw new Exception('Vehicle type not found', Response::HTTP_NOT_FOUND);

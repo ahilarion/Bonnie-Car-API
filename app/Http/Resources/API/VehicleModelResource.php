@@ -21,22 +21,12 @@ class VehicleModelResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $data = [
+        return [
             "name" => $this->name,
             "display_name" => $this->display_name,
             "estimated_price" => $this->estimated_price,
+            "type" => new VehicleTypeResource($this->whenLoaded('VehicleType')),
+            "marque" => new VehicleMarqueResource($this->whenLoaded('VehicleMarque')),
         ];
-
-        if ($request->has('include') && str_contains($request->get('include'), 'types')) {
-            $request->merge(['include' => str_replace('types', '', $request->get('include'))]);
-            $data['type'] = new VehicleTypeResource($this->vehicleType);
-        }
-
-        if ($request->has('include') && str_contains($request->get('include'), 'marques')) {
-            $request->merge(['include' => str_replace('marques', '', $request->get('include'))]);
-            $data['marque'] = new VehicleMarqueResource($this->vehicleMarque);
-        }
-
-        return $data;
     }
 }
