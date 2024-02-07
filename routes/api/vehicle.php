@@ -33,7 +33,7 @@ Route::group(['prefix' => 'vehicle'], function () {
     });
 
     Route::group(['prefix' => 'type'], function () {
-        Route::group(['middleware' => 'allowedIncludes:models'], function () {
+        Route::group(['middleware' => 'allowedIncludes:models,marques'], function () {
             Route::get('/', [VehicleTypeController::class, 'index']);
             Route::get('/{type}', [VehicleTypeController::class, 'show'])->where('type', '[A-Za-z]+');
         });

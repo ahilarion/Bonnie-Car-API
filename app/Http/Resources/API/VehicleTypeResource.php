@@ -24,7 +24,6 @@ class VehicleTypeResource extends JsonResource
             "display_name" => $this->display_name,
         ];
 
-        // handle recursive inclusion of vehicle models
         if ($request->has('include') && str_contains($request->get('include'), 'models')) {
             $request->merge(['include' => str_replace('models', '', $request->get('include'))]);
             $data['models'] = VehicleModelResource::collection($this->vehicleModels);
