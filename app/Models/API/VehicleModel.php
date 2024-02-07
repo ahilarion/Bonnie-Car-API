@@ -17,6 +17,11 @@ class VehicleModel extends Model
         'name',
         'display_name',
         'estimated_price',
+        'gearbox',
+        'fuel_type',
+        'horse_power',
+        'consumption',
+        'release_year',
         'vehicle_marque_id',
         'vehicle_type_id'
     ];

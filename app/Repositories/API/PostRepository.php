@@ -5,6 +5,7 @@ namespace App\Repositories\API;
 use App\Http\Requests\API\PostStoreRequest;
 use App\Http\Requests\API\PostUpdateRequest;
 use App\Models\API\Post;
+use App\Models\API\VehicleModel;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -60,20 +61,23 @@ class PostRepository
     {
         $user = Auth::user();
 
-        $model = Post::create([
+        $model = VehicleModel::where('name', $data['vehicle_model_name'])->first();
+
+        $post = Post::create([
             'title' => $data['title'],
             'description' => $data['description'],
             'images' => json_encode($data['images']),
             'price' => $data['price'],
             'kilometer' => $data['kilometer'],
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'vehicle_model_id' => $model->id
         ]);
 
-        if (!$model) {
+        if (!$post) {
             throw new Exception('Failed to create model', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        return $model;
+        return $post;
     }
 
     /**

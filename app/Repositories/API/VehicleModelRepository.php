@@ -64,13 +64,22 @@ class VehicleModelRepository
 
         $type = VehicleType::where('name', $data['vehicle_type'])->firstOrFail();
 
-        $model = VehicleModel::create([
-            'name' => $data['name'],
-            'display_name' => $data['display_name'],
-            'estimated_price' => $data['estimated_price'],
-            'vehicle_marque_id' => $marque->id,
-            'vehicle_type_id' => $type->id
-        ]);
+        try {
+            $model = VehicleModel::create([
+                'name' => $data['name'],
+                'display_name' => $data['display_name'],
+                'gearbox' => $data['gearbox'],
+                'fuel_type' => $data['fuel_type'],
+                'horse_power' => $data['horse_power'],
+                'consumption' => $data['consumption'],
+                'release_year' => $data['release_year'],
+                'estimated_price' => $data['estimated_price'],
+                'vehicle_marque_id' => $marque->id,
+                'vehicle_type_id' => $type->id
+            ]);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
         if (!$model) {
             throw new Exception('Failed to create model', Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -90,7 +99,12 @@ class VehicleModelRepository
             throw new Exception('Model not found', Response::HTTP_NOT_FOUND);
         }
 
-        $model->update($data);
+        try {
+            $model->update($data);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+        dd("2");
 
         return $model;
     }
