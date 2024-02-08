@@ -28,6 +28,17 @@ class PostController extends Controller
         }
     }
 
+    public function lastPost()
+    {
+        try {
+            $data = $this->postRepository->lastPost();
+
+            return PostResource::collection($data);
+        } catch (\Exception $e) {
+            // Handle exception
+        }
+    }
+
     public function show($model)
     {
         try {

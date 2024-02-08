@@ -33,6 +33,23 @@ class PostRepository
         return $posts;
     }
 
+    public function lastPost()
+    {
+        try {
+            $posts = QueryBuilder::for(Post::class)
+                ->allowedIncludes(Post::$allowedIncludes)
+                ->latest()
+                ->take(5)
+                ->get();
+        } catch (Exception $e) {
+            throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
+        }
+        if ($posts->isEmpty()) {
+            throw new Exception('No post posts found', Response::HTTP_NOT_FOUND);
+        }
+        return $posts;
+    }
+
     /**
      * @throws Exception
      */
