@@ -27,7 +27,9 @@ class PostResource extends JsonResource
             "images" => json_decode($this->images),
             "price" => $this->price,
             "kilometer" => $this->kilometer,
-            "vehicle_model_name" => $this->vehicle_model_name,
+            "vehicle_model" => $this->vehicle_model,
+            "vehicle_marque" => $this->vehicle_marque,
+            "vehicle_type" => $this->vehicle_type,
             // "user" => User::collection($this->whenLoaded('User')),
         ];
     }

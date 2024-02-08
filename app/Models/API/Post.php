@@ -23,7 +23,9 @@ class Post extends Model
         'reduction',
         'status',
         'user_id',
-        'vehicle_model_id'
+        'vehicle_model',
+        'vehicle_marque',
+        'vehicle_type'
     ];
 
     public function User() : BelongsTo

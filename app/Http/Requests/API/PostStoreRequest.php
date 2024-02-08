@@ -32,7 +32,9 @@ class PostStoreRequest extends FormRequest
             'price' => ['required', 'numeric', 'min:0'],
             'kilometer' => ['required', 'numeric', 'min:0'],
             'reduction' => ['required', 'numeric', 'min:0', 'max:100'],
-            'vehicle_model_name' => ['required', 'string', 'max:255']
+            'vehicle_model' => ['required', 'string', 'max:255'],
+            'vehicle_marque' => ['required', 'string', 'max:255'],
+            'vehicle_type' => ['required', 'string', 'max:255']
         ];
     }
 

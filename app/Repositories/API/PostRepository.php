@@ -61,8 +61,6 @@ class PostRepository
     {
         $user = Auth::user();
 
-        $model = VehicleModel::where('name', $data['vehicle_model_name'])->first();
-
         $post = Post::create([
             'title' => $data['title'],
             'description' => $data['description'],
@@ -70,7 +68,9 @@ class PostRepository
             'price' => $data['price'],
             'kilometer' => $data['kilometer'],
             'user_id' => $user->id,
-            'vehicle_model_id' => $model->id
+            'vehicle_model' => $data['vehicle_model'],
+            'vehicle_marque' => $data['vehicle_marque'],
+            'vehicle_type' => $data['vehicle_type'],
         ]);
 
         if (!$post) {

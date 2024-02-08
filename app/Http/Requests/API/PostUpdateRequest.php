@@ -31,7 +31,9 @@ class PostUpdateRequest extends FormRequest
             'images' => ['required', 'array', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'kilometer' => ['required', 'string', 'max:255'],
-            'vehicle_model_name' => ['required', 'string', 'max:255']
+            'vehicle_model' => ['required', 'string', 'max:255'],
+            'vehicle_marque' => ['required', 'string', 'max:255'],
+            'vehicle_type' => ['required', 'string', 'max:255']
         ];
     }
 

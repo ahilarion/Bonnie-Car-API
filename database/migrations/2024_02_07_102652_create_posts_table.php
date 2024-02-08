@@ -20,6 +20,9 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->default(0);
             $table->decimal('kilometer', 10, 2)->default(0);
             $table->decimal('reduction', 10, 2)->default(0);
+            $table->string('vehicle_model');
+            $table->string('vehicle_marque');
+            $table->string('vehicle_type');
             $table->enum("status", ['pending','available','processed','cancelled','sold'])->default('pending');
             $table->foreignUuid('user_id')->constrained();
             $table->timestamps();

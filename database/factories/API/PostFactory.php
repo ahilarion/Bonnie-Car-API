@@ -24,6 +24,9 @@ class PostFactory extends Factory
             'price' => $this->faker->randomNumber(5),
             'kilometer' => $this->faker->randomNumber(5),
             'reduction' => $this->faker->randomFloat(2, 0, 30),
+            'vehicle_model' => $this->faker->sentence,
+            'vehicle_marque' => $this->faker->sentence,
+            'vehicle_type' => $this->faker->sentence,
             'status' => $this->faker->randomElement(['pending', 'available', 'processed', 'cancelled', 'sold']),
         ];
     }
