@@ -34,7 +34,7 @@ class ArticleStoreRequest extends FormRequest
             'html_content' => ['required', 'string', 'max:65535'],
             // 'banner' => ['required', 'file', 'max:1' ,'mimes:jpeg,jpg,png']
             'banner' => ['required', 'string', 'max:512'],
-            'tags' => ['required', 'string', 'max:1024']
+            'tags' => ['required', 'array', 'max:50']
         ];
     }
 

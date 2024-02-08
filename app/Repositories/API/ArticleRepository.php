@@ -17,18 +17,18 @@ class ArticleRepository
     public function index()
     {
         try {
-            $marques = QueryBuilder::for(Article::class)
+            $article = QueryBuilder::for(Article::class)
                 ->allowedIncludes(Article::$allowedIncludes)
                 ->paginate(10);
         } catch (Exception $e) {
             throw new Exception("Requested include(s) are not allowed", Response::HTTP_BAD_REQUEST);
         }
 
-        if ($marques->isEmpty()) {
-            throw new Exception('No marques found', Response::HTTP_NOT_FOUND);
+        if ($article->isEmpty()) {
+            throw new Exception('No article found', Response::HTTP_NOT_FOUND);
         }
 
-        return $marques;
+        return $article;
     }
 
     /**
@@ -46,7 +46,7 @@ class ArticleRepository
         }
 
         if (!$post) {
-            throw new Exception('Marque not found', Response::HTTP_NOT_FOUND);
+            throw new Exception('Article not found', Response::HTTP_NOT_FOUND);
         }
 
         return $post;
@@ -57,13 +57,28 @@ class ArticleRepository
      */
     public function store(array $data) : Article
     {
-        $marque = Article::create($data);
+        try {
 
-        if (!$marque) {
-            throw new Exception('Marque not created', Response::HTTP_INTERNAL_SERVER_ERROR);
+            $article = Article::create([
+                'title' => $data['title'],
+                'thumbnail' => $data['thumbnail'],
+                'description' => $data['description'],
+                'short_description' => $data['short_description'],
+                'html_content' => $data['html_content'],
+                'banner' => $data['html_content'],
+                'tags' => json_encode($data['tags'])
+            ]);
+            $article->refresh();
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
 
-        return $marque;
+        if (!$article) {
+            throw new Exception('Article not created', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        
+        return $article;
     }
 
     /**
@@ -71,13 +86,26 @@ class ArticleRepository
      */
     public function update(array $data, $uuid) : Article
     {
-        $article = Article::findOrFail($uuid);
+        
+        try {
+            $article = Article::findOrFail($uuid);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
 
         if (!$article) {
             throw new Exception('Article not found', Response::HTTP_NOT_FOUND);
         }
 
-        $article->update($data);
+        $article->update([
+            'title' => $data['title'],
+            'thumbnail' => $data['thumbnail'],
+            'description' => $data['description'],
+            'short_description' => $data['short_description'],
+            'html_content' => $data['html_content'],
+            'banner' => $data['html_content'],
+            'tags' => json_encode($data['tags'])
+        ]);
         return $article;
     }
 

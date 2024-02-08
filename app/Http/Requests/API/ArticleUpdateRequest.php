@@ -33,7 +33,7 @@ class ArticleUpdateRequest extends FormRequest
             'short_description' => ['string', 'max:255'],
             'html_content' => ['string', 'max:65535'],
             'banner' => ['string', 'max:512'],
-            'tags' => ['string', 'max:1024']
+            'tags' => ['array', 'max:50']
             // 'banner' => ['file', 'max:1' ,'mimes:jpeg,jpg,png']
         ];
     }
