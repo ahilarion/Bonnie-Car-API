@@ -21,7 +21,8 @@ class ArticleResource extends JsonResource
             "description"=> $this->description,
             "short_description" => $this->short_description,
             "html_content"=> $this->html_content,
-            "banner"=> $this->banner
+            "banner"=> $this->banner,
+            "tags"=> $this->tags
         ];
     }
 }

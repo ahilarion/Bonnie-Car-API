@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("short_description");
             $table->longText("html_content");
             $table->string("banner");
+            $table->string("tags");
             $table->timestamps();
         });
     }

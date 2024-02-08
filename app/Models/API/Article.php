@@ -21,7 +21,8 @@ class Article extends Model
         'description',
         'short_description',
         'html_content',
-        'banner'
+        'banner',
+        'tags'
     ];
 
     public static array $allowedIncludes = [];
