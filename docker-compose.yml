@@ -4,7 +4,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: mon-api-laravel:latest
+        image: api-laravel:latest
         container_name: api_laravel_container
         restart: unless-stopped
         tty: true
