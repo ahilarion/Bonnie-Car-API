@@ -34,6 +34,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copier le code de l'application existant à partir de votre dossier d'application
 COPY . /var/www
 
+# Exécutez composer install pour installer les dépendances
+RUN composer install
+
 # Exposez le port 9000 et démarrez le serveur PHP-FPM
 EXPOSE 9000
 CMD ["php-fpm"]
