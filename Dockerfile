@@ -1,5 +1,5 @@
 # Spécifier l'image de base, utilisez la version de PHP que vous préférez
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
 # Copiez composer.lock et composer.json
 COPY composer.lock composer.json /var/www/
