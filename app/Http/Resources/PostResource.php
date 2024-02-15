@@ -20,8 +20,7 @@ class PostResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'images' => $this->images,
-            'user_uuid' => $this->user_uuid,
-            'vehicle_uuid' => $this->vehicle_uuid,
+            'vehicle' => new VehicleResource($this->vehicle),
             'published_at' => $this->published_at,
         ];
     }
