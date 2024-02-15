@@ -232,8 +232,8 @@ class PostRepository {
      {
         return QueryBuilder::for(Post::class)
             ->with('vehicle')
-            ->where('vehicle.type', 'moto')
-            ->latest()
+            ->where('is_two_wheeled', true)
+            ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
     }
@@ -242,8 +242,8 @@ class PostRepository {
     {
         return QueryBuilder::for(Post::class)
             ->with('vehicle')
-            ->where('vehicle.type', 'car')
-            ->latest()
+            ->where('is_two_wheeled', false)
+            ->orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
     }
