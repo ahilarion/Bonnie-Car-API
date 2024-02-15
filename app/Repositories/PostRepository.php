@@ -243,8 +243,9 @@ class PostRepository {
 
         try {
             $lastCar = QueryBuilder::for(Post::class)
-                ->with('vehicle')
-                ->where('is_two_wheeled', false)
+                ->with(['vehicle' => function ($query) {
+                    $query->where('is_two_wheeled', false);
+                }])
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
