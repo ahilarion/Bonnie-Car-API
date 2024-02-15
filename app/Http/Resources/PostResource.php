@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,7 @@ class PostResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'images' => $this->images,
-            'vehicle' => new VehicleResource($this->vehicle),
+            'vehicle' => $this->whenLoaded('vehicle', fn() => new VehicleResource(Vehicle::find($this->vehicle_uuid))),
             'published_at' => $this->published_at,
         ];
     }
