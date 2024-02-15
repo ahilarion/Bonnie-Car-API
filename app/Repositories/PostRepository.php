@@ -230,21 +230,15 @@ class PostRepository {
 
      public function lastMoto(): Collection|array
      {
-        return QueryBuilder::for(Post::class)
-            ->with('vehicle')
-            ->where('vehicle.type', 'moto')
-            ->latest()
-            ->limit(5)
-            ->get();
+        return Post::whereHas('vehicle', function ($query) {
+            $query->where('is_two_wheeled', true);
+        })->latest()->limit(5)->get();
     }
 
     public function lastCar(): Collection|array
     {
-        return QueryBuilder::for(Post::class)
-            ->with('vehicle')
-            ->where('vehicle.type', 'car')
-            ->latest()
-            ->limit(5)
-            ->get();
+        return Post::whereHas('vehicle', function ($query) {
+            $query->where('is_two_wheeled', false);
+        })->latest()->limit(5)->get();
     }
 }
