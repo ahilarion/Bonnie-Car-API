@@ -21,7 +21,7 @@ class PostResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'images' => $this->images,
-            'vehicle' => new VehicleResource($this->whenLoaded('vehicle')),
+            'vehicle' => new VehicleResource(Vehicle::find($this->vehicle_uuid)),
             'published_at' => $this->published_at,
         ];
     }
