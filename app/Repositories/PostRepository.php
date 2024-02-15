@@ -233,7 +233,7 @@ class PostRepository {
          $lastMotos = QueryBuilder::for(Vehicle::class)
              ->where('is_two_wheeled', true)
              ->orderBy('created_at', 'desc')
-             ->limit(5)
+             ->limit(3)
              ->get();
 
          return Post::whereIn('vehicle_uuid', $lastMotos->pluck('uuid'))->get();
@@ -244,7 +244,7 @@ class PostRepository {
         $lastCars = QueryBuilder::for(Vehicle::class)
             ->where('is_two_wheeled', false)
             ->orderBy('created_at', 'desc')
-            ->limit(5)
+            ->limit(3)
             ->get();
 
         return Post::whereIn('vehicle_uuid', $lastCars->pluck('uuid'))->get();
