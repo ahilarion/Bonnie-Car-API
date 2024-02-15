@@ -16,16 +16,16 @@ services:
         networks:
             - laravel
 
-    nginx:
-        image: nginx:stable-alpine
-        container_name: nginx
-        ports:
-            - "80:80"
-        volumes:
-            - ./:/app
-            - ./nginx:/etc/nginx/conf.d
-        networks:
-            - laravel
+#    nginx:
+#        image: nginx:stable-alpine
+#        container_name: nginx
+#        ports:
+#            - "80:80"
+#        volumes:
+#            - ./:/app
+#            - ./nginx:/etc/nginx/conf.d
+#        networks:
+#            - laravel
 
     mysql:
         image: mysql:8.0
