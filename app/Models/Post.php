@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * @method static create(array $array)
  * @method static find($uuid)
+ * @method static whereIn(string $string, \Illuminate\Support\Collection $pluck)
  */
 class Post extends Model
 {

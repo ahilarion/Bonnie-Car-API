@@ -243,7 +243,9 @@ class PostRepository {
                 ->limit(5)
                 ->get();
 
-            dd($lastCars->post);
+            $post = Post::whereIn('vehicle_uuid', $lastCars->pluck('uuid'))->get();
+
+            dd($post);
         } catch (Exception $e) {
             dd($e->getMessage());
         }
