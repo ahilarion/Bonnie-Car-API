@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
 use App\Http\Resources\ArticleResource;
+use App\Http\Resources\PostResource;
 use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
 
@@ -83,7 +84,7 @@ class PostController extends Controller
     {
         try {
             $data = $this->postRepository->lastMoto();
-            return new ArticleResource($data);
+            return PostResource::collection($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
@@ -95,7 +96,7 @@ class PostController extends Controller
     {
         try {
             $data = $this->postRepository->lastCar();
-            return new ArticleResource($data);
+            return PostResource::collection($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()
