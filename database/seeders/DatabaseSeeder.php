@@ -35,16 +35,15 @@ class DatabaseSeeder extends Seeder
         foreach ($vehicles as $vehicle) {
             if ($vehicle->is_two_wheeled) {
                 $images = [
-                    'https://source.unsplash.com/1600x900/?motorcycle',
-                    'https://source.unsplash.com/1600x900/?motorcycle',
-                    'https://source.unsplash.com/1600x900/?motorcycle',
+                    'https://www.bike-zone.fr/images/700x476/ressources/catalogue_etendu_22/items/superbe_yamaha_mt07_night_fluo_a2_abs_de_avril_2017_garantie-aexh.jpg',
+                    'https://www.casquedemoto.com/images/acheter-une-moto-d-occasion-870x559.png',
+                    'https://bellesmachines.com/wp-content/uploads/2018/08/04-triump-bobber-black-1000.jpg'
                 ];
             } else {
                 $images = [
-                    'https://source.unsplash.com/1600x900/?car',
-                    'https://source.unsplash.com/1600x900/?car',
-                    'https://source.unsplash.com/1600x900/?car',
-                ];
+                    'https://static.actu.fr/uploads/2023/11/ferarri-960x640.png',
+                    'https://images.caradisiac.com/images/2/5/1/3/202513/S0-le-classement-mondial-des-marques-automobiles-de-luxe-756694.jpg',
+                    'https://images.caradisiac.com/images/0/6/7/5/200675/S0-la-plus-bath-des-batmoobiles-s-expose-a-lyon-745957.jpg'                ];
             }
 
 
