@@ -4,12 +4,12 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
-use Spatie\QueryBuilder\QueryBuilderRequest;
-use Symfony\Component\ErrorHandler\Error\FatalError;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class Handler extends ExceptionHandler
 {
@@ -25,36 +25,35 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Register the exception handling callbacks for the application.
-     */
+    * Register the exception handling callbacks for the application.
+    */
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
             //
         });
 
-        $this->renderable(function (MethodNotAllowedException $e, $request) {
-            return response()->json(['message' => 'Route not found'], 404);
+        //handle not connected user
+        $this->renderable(function (AuthenticationException $e, $request) {
+            return response()->json(['error' => 'Unauthenticated'], Response::HTTP_UNAUTHORIZED);
+        });
+
+        //   handle route not found
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            return response()->json(['error' => 'Route not found'], Response::HTTP_NOT_FOUND);
+        });
+
+        $this->renderable(function (RouteNotFoundException $e, $request) {
+            return response()->json(['error' => 'Route not found'], Response::HTTP_NOT_FOUND);
         });
 
         $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
-            return response()->json(['message' => 'Route not found'], 404);
+            return response()->json(['error' => 'Method not allowed'], Response::HTTP_METHOD_NOT_ALLOWED);
         });
 
-        $this->renderable(function (AuthenticationException $e, $request) {
-            return response()->json(['message' => 'Unauthenticated'], 401);
-        });
-
-        $this->renderable(function (FatalError $e, $request) {
-            if (str_contains($e->getMessage(), 'Allowed memory size')) {
-                return response()->json(['message' => 'Memory size exceeded'], 500);
-            }
-
-            return response()->json(['message' => 'Internal server error'], 500);
-        });
-
-        $this->renderable(function (InvalidIncludeQuery $e, $request) {
-            return response()->json(['message' => 'Invalid include query'], 400);
+        // handle spatie role permission exception
+        $this->renderable(function (UnauthorizedException $e, $request) {
+            return response()->json(['error' => 'Unauthorized'], Response::HTTP_FORBIDDEN);
         });
     }
 }

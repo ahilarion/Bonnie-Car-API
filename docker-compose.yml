@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: laravelapp
+        container_name: laravelapp
+        restart: unless-stopped
+        tty: true
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - ./storage:/app/storage
+        networks:
+            - laravel
+
+    nginx:
+        image: nginx:stable-alpine
+        container_name: nginx
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/app
+            - ./nginx:/etc/nginx/conf.d
+        networks:
+            - laravel
+
+    mysql:
+        image: mysql:8.0
+        container_name: mysql
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: BonnieCarBDD
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: Gez12nezj12
+            MYSQL_ROOT_PASSWORD: Gez12nezj12
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        networks:
+            - laravel
+
+networks:
+    laravel:
+        driver: bridge
+
+volumes:
+    mysql:
+        driver: local
