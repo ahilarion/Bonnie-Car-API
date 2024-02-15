@@ -230,26 +230,20 @@ class PostRepository {
 
      public function lastMoto(): Collection|array
      {
-        return QueryBuilder::for(Post::class)
-            ->with('vehicle')
-            ->where('is_two_wheeled', true)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
+
     }
 
     public function lastCar(): Collection|array
     {
 
         try {
-            $lastCar = QueryBuilder::for(Post::class)
-                ->with(['vehicle' => function ($query) {
-                    $query->where('is_two_wheeled', false);
-                }])
+            $lastCars = QueryBuilder::for(Vehicle::class)
+                ->where('is_two_wheeled', false)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
-            dd($lastCar);
+
+            dd($lastCars->post);
         } catch (Exception $e) {
             dd($e->getMessage());
         }
