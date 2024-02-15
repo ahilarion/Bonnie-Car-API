@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Http\Resources\ArticleResource;
 use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
 
@@ -66,8 +67,35 @@ class PostController extends Controller
     public function destroy($uuid)
     {
         try {
-            $data = $this->postRepository->destroy($uuid);
-            return response()->json($data);
+            $this->postRepository->destroy($uuid);
+            return response()->json([
+                'message' => 'Post deleted'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+
+    public function lastMoto()
+    {
+        try {
+            $data = $this->postRepository->lastMoto();
+            return new ArticleResource($data);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], $e->getCode());
+        }
+    }
+
+    public function lastCar()
+    {
+        try {
+            $data = $this->postRepository->lastCar();
+            return new ArticleResource($data);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => $e->getMessage()

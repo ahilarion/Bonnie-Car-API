@@ -7,6 +7,7 @@ use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
 use App\Models\Vehicle;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Random\RandomException;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -225,5 +226,25 @@ class PostRepository {
 
         $post->delete();
         $vehicle->delete();
+    }
+
+     public function lastMoto(): Collection|array
+     {
+        return QueryBuilder::for(Post::class)
+            ->with('vehicle')
+            ->where('vehicle.type', 'moto')
+            ->latest()
+            ->limit(5)
+            ->get();
+    }
+
+    public function lastCar(): Collection|array
+    {
+        return QueryBuilder::for(Post::class)
+            ->with('vehicle')
+            ->where('vehicle.type', 'car')
+            ->latest()
+            ->limit(5)
+            ->get();
     }
 }
