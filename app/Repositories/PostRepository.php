@@ -230,24 +230,23 @@ class PostRepository {
 
      public function lastMoto(): Collection|array
      {
+         $lastMotos = QueryBuilder::for(Vehicle::class)
+             ->where('is_two_wheeled', true)
+             ->orderBy('created_at', 'desc')
+             ->limit(5)
+             ->get();
 
+         return Post::whereIn('vehicle_uuid', $lastMotos->pluck('uuid'))->get();
     }
 
     public function lastCar(): Collection|array
     {
+        $lastCars = QueryBuilder::for(Vehicle::class)
+            ->where('is_two_wheeled', false)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
 
-        try {
-            $lastCars = QueryBuilder::for(Vehicle::class)
-                ->where('is_two_wheeled', false)
-                ->orderBy('created_at', 'desc')
-                ->limit(5)
-                ->get();
-
-            $post = Post::whereIn('vehicle_uuid', $lastCars->pluck('uuid'))->get();
-
-            dd($post);
-        } catch (Exception $e) {
-            dd($e->getMessage());
-        }
+        return Post::whereIn('vehicle_uuid', $lastCars->pluck('uuid'))->get();
     }
 }
