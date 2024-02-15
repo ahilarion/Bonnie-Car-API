@@ -54,12 +54,17 @@ class DatabaseSeeder extends Seeder
                 ];
             }
 
+            $randomImages = [];
+
+            for ($i = 0; $i < 3; $i++) {
+                $randomImages[] = $images[rand(0, count($images) - 1)];
+            }
 
             $vehicle->post()->create([
                 'title' => $vehicle->constructor . ' ' . $vehicle->model,
                 'description' => $vehicle->description,
                 'price' => $vehicle->original_price * (rand(80, 120) / 100),
-                'images' => json_encode(array_slice($images, 0, 3)),
+                'images' => json_encode($randomImages),
                 'user_uuid' => $users->random()->uuid,
                 'vehicle_uuid' => $vehicle->uuid,
             ]);
