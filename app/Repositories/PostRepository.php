@@ -240,11 +240,17 @@ class PostRepository {
 
     public function lastCar(): Collection|array
     {
-        return QueryBuilder::for(Post::class)
-            ->with('vehicle')
-            ->where('is_two_wheeled', false)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
+
+        try {
+            $lastCar = QueryBuilder::for(Post::class)
+                ->with('vehicle')
+                ->where('is_two_wheeled', false)
+                ->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get();
+            dd($lastCar);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
     }
 }
